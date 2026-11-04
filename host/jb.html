@@ -722,7 +722,7 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
     detectInfo();
     var s = document.createElement('script');
     s.type = 'module';
-    s.src = './jb.js?v=fb-gh13b';
+    s.src = './jb.js?v=fb-gh13c';
     s.onerror = function () {
       starting = false;
       stopElapsed();
@@ -802,31 +802,24 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
   window.__fbOnDone = function () {
     clearAuto();
     stopElapsed();
+    try {
+      if (typeof window.__fbSetPayload === 'function') window.__fbSetPayload(true);
+    } catch (e) {}
     document.body.className = 'welcome';
+    try {
+      var w = document.getElementById('ghWelcome');
+      if (w) w.setAttribute('aria-hidden', 'false');
+    } catch (e) {}
     detectInfo();
+    // Keep SiSTRo welcome on screen ~3s. Do not history.back/close (PS4 closes the tab).
     setTimeout(function () {
-      var left = false;
       try {
-        if (typeof history !== 'undefined' && history.length > 1) {
-          history.go(-1); left = true;
+        if (document.body && document.body.className.indexOf('welcome') >= 0) {
+          document.body.className = 'done';
         }
       } catch (e) {}
-      if (!left) {
-        try { history.back(); left = true; } catch (e) {}
-      }
-      try { window.close(); } catch (e) {}
-      setTimeout(function () {
-        try {
-          if (document.body && document.body.className.indexOf('welcome') >= 0) {
-            document.open();
-            document.write('<!doctype html><html><head><meta charset="utf-8"><title></title><style>html,body{margin:0;background:#000;height:100%;width:100%}</style></head><body></body></html>');
-            document.close();
-          }
-        } catch (e) {}
-      }, 400);
     }, 3000);
   };
-
   var hide = function () {
     var w = document.getElementById('wrap');
     var o = document.getElementById('out');
