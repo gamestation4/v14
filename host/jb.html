@@ -726,7 +726,7 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
     detectInfo();
     var s = document.createElement('script');
     s.type = 'module';
-    s.src = './jb.js?v=fb-gh13f';
+    s.src = './jb.js?v=fb-gh13g';
     s.onerror = function () {
       starting = false;
       stopElapsed();
@@ -823,16 +823,28 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
     } catch (e) {}
     document.body.className = 'welcome';
     detectInfo();
-    // Stay on SiSTRo welcome ~3s. No history.back / close.
+    // Show SiSTRo welcome 1s, then leave/close the page.
     setTimeout(function () {
+      var left = false;
       try {
-        if (document.body && document.body.className.indexOf('welcome') >= 0) {
-          document.body.className = 'done';
-          var w2 = document.getElementById('ghWelcome');
-          if (w2) w2.style.display = 'none';
+        if (typeof history !== 'undefined' && history.length > 1) {
+          history.go(-1); left = true;
         }
       } catch (e) {}
-    }, 3000);
+      if (!left) {
+        try { history.back(); left = true; } catch (e) {}
+      }
+      try { window.close(); } catch (e) {}
+      setTimeout(function () {
+        try {
+          if (document.body && document.body.className.indexOf('welcome') >= 0) {
+            document.open();
+            document.write('<!doctype html><html><head><meta charset="utf-8"><title></title><style>html,body{margin:0;background:#000;height:100%;width:100%}</style></head><body></body></html>');
+            document.close();
+          }
+        } catch (e) {}
+      }, 400);
+    }, 1000);
   };
   var hide = function () {
     var w = document.getElementById('wrap');
