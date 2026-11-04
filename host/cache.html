@@ -5,7 +5,6 @@
 <style>
 body{margin:0;background:#eef5ff;color:#0f172a;font:16px/1.45 system-ui,sans-serif;text-align:center}
 .info{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#1d4ed8}
-.info b{color:#0b3d91}
 </style>
 <script>
 history.replaceState(null, null, 'jb.html');
@@ -13,11 +12,9 @@ function pct(e){
   var m=document.getElementById('msgs');
   if(!m)return;
   var p=e.total?Math.round(e.loaded/e.total*100):0;
-  m.textContent=''+p+'%</b>';
+  m.textContent=p? (p+'%') : '';
 }
 function go(){
-  var m=document.getElementById('msgs');
-  if(m) m.textContent='';
   setTimeout(function(){ location.replace('jb.html'); }, 700);
 }
 if(window.applicationCache){
@@ -27,7 +24,7 @@ if(window.applicationCache){
   applicationCache.addEventListener('noupdate', function(){ setTimeout(function(){ location.replace('jb.html'); }, 200); }, false);
   applicationCache.addEventListener('error', function(){
     var m=document.getElementById('msgs');
-    if(m) m.textContent='Cache failed — open while the PC host is online once';
+    if(m) m.textContent='Cache failed';
   }, false);
 } else {
   setTimeout(function(){ location.replace('jb.html'); }, 300);
