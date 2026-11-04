@@ -912,38 +912,19 @@ async function stage10Payload(c, d) {
     log("L-MPROTECT", "anon mmap failed=" + h16(trialAddr));
   }
 
-  const blob = await c.fetchFile("hen.bin");
+  const blob = await c.fetchFile("hen.bin?v=b18.13");
   c.keepAlive.push(blob);
-  if (blob.length !== 562240 || blob[0] !== 0xe9 ||
-      blob[1] !== 0xa6 || blob[2] !== 0x4a ||
-      blob[3] !== 0 || blob[4] !== 0 ||
-      blob.subarray(5, 32).some(v => v !== 0))
+  // GoldHEN v2.4b18.13 official raw payload (297496). Native 14.00 support.
+  // Old BD-J image locks (562240 / no-file-gate / embedded ASCII cfg) removed.
+  if (blob.length !== 297496 || blob[0] !== 0xe9 ||
+      blob[1] !== 0xa6 || blob[2] !== 0x16 ||
+      blob[3] !== 0 || blob[4] !== 0)
     fin("L payload signature/length=" + blob.length + "/" + blob[0]);
-  for (const offset of [0x4cc9, 0x4d18]) {
-    const expected = [0x31, 0xc0, 0x90, 0x90, 0x90];
-    if (expected.some((value, i) => blob[offset + i] !== value))
-      fin("L HEN no-file-gate image mismatch at " + h16(offset));
-  }
-  log("L-HEN-SOURCE", "hen.bin sha256=756077919fd59abd0eb3ae7b96b6295349b2a0a1b6a7d5c99b3c6898c4abe753");
-  // kernel probe pc 14193-14626: patch eight embedded ASCII config bytes.
-  const cfgOffsets = P.slice(4, 12);
-  const cfgWanted = [1, 1, 1, 1, 0, 0, 1, 1];
-  const cfgReadback = [];
-  for (let i = 0; i < cfgOffsets.length; i++) {
-    const offset = cfgOffsets[i];
-    const before = blob[offset];
-    if (offset >= blob.length || (before !== 0x30 && before !== 0x31))
-      fin("L HEN config byte invalid at " + h16(offset) + ": " + h16(before));
-    blob[offset] = 0x30 + cfgWanted[i];
-    if (blob[offset] !== 0x30 + cfgWanted[i])
-      fin("L HEN config write failed at " + h16(offset));
-    cfgReadback.push(i + ":" + String.fromCharCode(before) +
-      "->" + String.fromCharCode(blob[offset]));
-  }
-  log("L-HEN-CONFIG", cfgReadback.join(","));
+  log("L-HEN-SOURCE", "hen.bin sha256=39452f5e1c305ac9efcb4745eef7958b4db8c6d85299529f08700970b009ea4d");
+  log("L-HEN-CONFIG", "skipped=native-goldhen-2.4b18.13");
 
-  // Match the published BD-J loader's 0x90000 JITSHM span and map hint.
-  const size = 589824;
+  // 16 KiB-aligned JITSHM span (same rule as raw payload hosts).
+  const size = (blob.length + 0x3fff) & ~0x3fff;
   const jfd = scn("jitshm_create", 0, size, 7);
   log("L-HEN-JITFD", "fd=" + jfd + " span=" + size);
   if (jfd < 0) fin("L HEN jitshm_create failed");
