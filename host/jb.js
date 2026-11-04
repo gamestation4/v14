@@ -422,7 +422,7 @@ let allDone = false,
       const PRIMITIVE_LOUD = /FAIL|ERROR|THREW|RETRY|ABORT|PASS/i;
 
       const carrier = await establishPrimitive({
-        maxAttempts: 1,
+        maxAttempts: 3,
         onEvent: function (tag, detail, attempt) {
           const writer = PRIMITIVE_LOUD.test(tag) ? mark : trace;
 
@@ -651,7 +651,7 @@ let allDone = false,
     let carrier;
     try {
       carrier = await establishPrimitive({
-        maxAttempts: 1,
+        maxAttempts: 3,
         onEvent: (t, d, a) => {
           entryCount++;
           entryEvents.push(t + (a == null ? "" : "[" + a + "]"));

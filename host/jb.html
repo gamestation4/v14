@@ -349,7 +349,7 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
   var IPKEY = 'ps4jb-ip';
   var autoTimer = 0;
   function autoEnabled() { try { return localStorage.getItem(AUTOKEY) === '1'; } catch (e) { return false; } }
-  var LIMIT = 5;
+  var LIMIT = 10;
   var starting = false;
   var elapsedTimer = 0;
   var elapsedStart = 0;
@@ -722,7 +722,7 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
     detectInfo();
     var s = document.createElement('script');
     s.type = 'module';
-    s.src = './jb.js?v=fb-gh13d';
+    s.src = './jb.js?v=fb-gh13e';
     s.onerror = function () {
       starting = false;
       stopElapsed();
