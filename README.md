@@ -1,55 +1,54 @@
-# PS4 14.00 host
+﻿# PS4 14.00 Jailbreak
 
-WebKit jailbreak host for PS4 firmware **14.00**.
+WebKit + kernel jailbreak host for PlayStation 4 firmware **14.00**. After the userland and kernel stages succeed, the host loads **GoldHEN**.
 
-Author: **X-F1REBALL-X**
+## Live host
 
-## Live
-
-GitHub Pages (HTTPS):
 https://x-f1reball-x.github.io/ps4-14.00/
 
-Open once to fill AppCache, then the jailbreak page:
-- https://x-f1reball-x.github.io/ps4-14.00/host/cache.html
-- https://x-f1reball-x.github.io/ps4-14.00/host/jb.html
-
-## Local HTTP
-
-Serve the `host` folder with `start-host.ps1` (sets the correct `.appcache` MIME type):
-
-```
-.\start-host.ps1
-```
-
-Then on the PS4 browser (HTTP):
-- `http://<PC-IP>:8080/cache.html`
-- `http://<PC-IP>:8080/jb.html`
+Open once to fill AppCache, then run from the jailbreak page (`host/jb.html`).
 
 ## Payload
 
-- GoldHEN **v2.4b18.13** (`hen.bin` / `payload.bin`, 297496 bytes)
+- **GoldHEN v2.4b18.13** (`hen.bin` / `payload.bin`, 297496 bytes)
 - sha256 `39452f5e1c305ac9efcb4745eef7958b4db8c6d85299529f08700970b009ea4d`
 
-## Behavior
+## How to use
 
-- Empty page title (address bar stays clean)
-- Auto: **3** in-page attempts, then reload; up to **10** reloads
-- After GoldHEN LOADED: SiSTRo welcome image (`welcome-goldhen.jpg`) for **3 seconds**, then the page closes
-- Telemetry off (`telemetry=0`)
+1. Fully power on the console (not Rest Mode).
+2. Open the PS4 browser to the live URL above (or your LAN host).
+3. Press **Start** and wait for the progress bar.
+4. On success: **DONE**, then the SiSTRo welcome splash for about 3 seconds.
+5. On failure: retry (up to 3 in-page attempts, then reload; up to 10 reloads).
 
-## Host files
+## Local hosting
 
-| File | Role |
-| --- | --- |
-| `jb.html` / `jb.js` | UI + exploit runner |
-| `fb_kevent.js` / `fb_kbase.js` / `fb_tables.js` | kernel stage |
-| `core.js` / `mem.js` / `int64.js` / `ps4_offsets.js` | primitives / offsets |
-| `hen.bin` / `payload.bin` | GoldHEN v2.4b18.13 |
-| `welcome-goldhen.jpg` | post-JB splash |
-| `cache.appcache` / `cache.html` | offline cache |
-| `patches/1400.bin` | 14.00 patch blob |
+```powershell
+.\start-host.ps1
+```
 
-## Notes
+Serves the `host` folder over HTTP on port **8080** (correct `.appcache` MIME type). On the PS4 browser:
 
-- Prefer a full power off (not Rest Mode) after hard fails
-- Hard-refresh the PS4 browser after a Pages update so AppCache picks up new hashes
+```text
+http://<your-pc-lan-ip>:8080/jb.html
+```
+
+## Credits
+
+### WebKit + kernel chain
+
+- **well0nez / m0zz** — afterglow: WebKit + kernel exploit chain for PS4 **13.52 / 14.00** (browser host at [ps4.sentrix.ac](https://ps4.sentrix.ac) / [afterglow-web](https://github.com/well0nez/afterglow-web))
+- **jordyidk** — [slopkit](https://github.com/jordyidk/slopkit), in-process WebKit primitive (`core.js`, `mem.js`, `int64.js`)
+- **raw13g** — browser host scaffolding (`jb.js`, `ps4_offsets.js`)
+- **aminegold0** — [silverps4hen](https://github.com/aminegold0/silverps4hen), rebuilt host lineage
+
+### Payload & host
+
+- **X-F1REBALL-X** — this PS4 14.00 host
+- **SiSTR0 / GoldHEN team** — GoldHEN ([GoldHEN](https://github.com/GoldHEN/GoldHEN))
+- **al-azif**, **Pharaoh2k**
+- **TheFlow, ChendoChap, abc, AlAzif, LightningMods, @egycnq** — PS4 kernel patch / sandbox-escape lineage these payloads build on
+
+## Disclaimer
+
+Educational / research use on consoles you own. Jailbreaking may violate platform terms and can damage hardware. Use at your own risk.
