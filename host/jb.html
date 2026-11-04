@@ -726,7 +726,7 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
     detectInfo();
     var s = document.createElement('script');
     s.type = 'module';
-    s.src = './jb.js?v=fb-gh13g';
+    s.src = './jb.js?v=fb-gh13i';
     s.onerror = function () {
       starting = false;
       stopElapsed();
@@ -823,7 +823,7 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
     } catch (e) {}
     document.body.className = 'welcome';
     detectInfo();
-    // Show SiSTRo welcome 1s, then leave/close the page.
+    // Show SiSTRo welcome 3s, then leave/close the page.
     setTimeout(function () {
       var left = false;
       try {
@@ -844,7 +844,7 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
           }
         } catch (e) {}
       }, 400);
-    }, 1000);
+    }, 3000);
   };
   var hide = function () {
     var w = document.getElementById('wrap');
