@@ -201,7 +201,7 @@ body.done #progBar{width:100%!important;background:#ffe566;background:-webkit-li
 body.running #splash,body.done #splash,body.fail #splash{display:none!important}
 body.running #loader,body.done #loader,body.fail #loader{display:-webkit-box;display:-webkit-flex;display:flex}
 
-/* Welcome splash after GoldHEN — img (PS4 WebKit often skips CSS backgrounds) */
+/* Welcome splash after GoldHEN ג€” img (PS4 WebKit often skips CSS backgrounds) */
 #ghWelcome{
   display:none;position:fixed;left:0;top:0;right:0;bottom:0;z-index:99999;
   margin:0;padding:0;background:#1848c8;overflow:hidden;
@@ -257,7 +257,6 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
           <div class="hi-chip"><span class="k">FW</span><b id="hiFw">-</b></div>
           <div class="hi-chip"><span class="k">Chain</span><b id="hiChain">-</b></div>
           <span class="hi-br" aria-hidden="true"></span>
-          <div class="hi-chip"><span class="k">IP</span><b id="hiIp">-</b></div>
           <div class="hi-chip"><span class="k">Auto-start</span><b id="hiAuto">-</b></div>
         </div>
       </section>
@@ -301,7 +300,6 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
         <div class="hi-chip"><span class="k">Model</span><b id="ldModel">-</b></div>
         <div class="hi-chip"><span class="k">FW</span><b id="ldFw">-</b></div>
         <div class="hi-chip"><span class="k">Chain</span><b id="ldChain">-</b></div>
-        <div class="hi-chip"><span class="k">IP</span><b id="ldIp">-</b></div>
       </div>
     </section>
   </main>
@@ -492,9 +490,12 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
   }
   function displayModel(v) {
     if (!v) return '';
+    if (v === 'Fat' || v === 'Slim' || v === 'Pro') return v;
     var pipe = /^(CUH-[A-Z0-9]+)\|(Fat|Slim|Pro)$/i.exec(v);
-    if (pipe) return pipe[1].toUpperCase() + ' ' + pipe[2];
-    return v;
+    if (pipe) return pipe[2];
+    var spaced = /^(CUH-[A-Z0-9]+)\s+(Fat|Slim|Pro)$/i.exec(v);
+    if (spaced) return spaced[2];
+    return '';
   }
   function cachedModel() {
     try {
@@ -588,20 +589,17 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
       if (m5) fw = m5[1];
     }
     var kind = cachedModel();
-    if (kind) model = displayModel(kind);
-    else if (model === 'PlayStation 4') model = 'after JB';
+    if (kind) model = displayModel(kind) || '-';
+    else model = '-';
     var autoOn = autoEnabled();
-    var ip = window.__fbIp || '-';
 
     setText('hiModel', model);
     setText('hiFw', fw);
     setText('hiChain', CHAIN);
-    setText('hiIp', ip);
     setText('hiAuto', autoOn ? 'On' : 'Off');
     setText('ldModel', model);
     setText('ldFw', fw);
     setText('ldChain', CHAIN);
-    setText('ldIp', ip);
     setText('autoStartState', autoOn ? 'On' : 'Off');
     var tile = document.getElementById('autoStartTile');
     if (tile) {
