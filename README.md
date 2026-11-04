@@ -1,6 +1,9 @@
-﻿# PS4 14.00 Jailbreak
+# PS4 13.52 / 14.00 Jailbreak
 
-WebKit + kernel jailbreak host for PlayStation 4 firmware **14.00**. After the stages succeed, the host loads **GoldHEN**.
+WebKit + kernel jailbreak host for PlayStation 4 firmware **13.52** and **14.00**. After the stages succeed, the host loads **GoldHEN**.
+
+- **14.00** — `hx1400` / kevent path + `patches/1400.bin`
+- **13.52** — classic kpatch path + `patches/1352.bin`
 
 ## Live host
 
@@ -29,9 +32,9 @@ HTTP on port **8080**. On the PS4 browser: `http://<your-pc-lan-ip>:8080/jb.html
 
 ## Credits
 
-- **well0nez / m0zz** — WebKit + kernel exploit chain (afterglow)
-- **SiSTR0 / GoldHEN team** — GoldHEN
-- **X-F1REBALL-X** — this host
+- **well0nez / m0zz** - WebKit + kernel exploit chain (afterglow)
+- **SiSTR0 / GoldHEN team** - GoldHEN
+- **X-F1REBALL-X** - this host
 
 ## Disclaimer
 

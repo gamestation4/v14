@@ -11,8 +11,17 @@ let passCount = 0,
 let armedEver = false;
 const params = new URLSearchParams(location.search);
 (function () {
+  // 14.00 uses fb_kevent (hx1400); 13.52 uses classic kpatch + patches/1352.bin
+  let hxDefault = "1";
+  try {
+    const m = (navigator.userAgent || "").match(/PlayStation\s+4[\/ ](\d+)\.(\d+)/);
+    if (m) {
+      const key = m[1] + "." + parseInt(m[2], 16).toString(16).padStart(2, "0");
+      if (key !== "14.00") hxDefault = "0";
+    }
+  } catch (e) {}
   const d = {
-    hx1400: "1", kv: "1", mem: "1", slots: "9100000", fam: "0",
+    hx1400: hxDefault, kv: "1", mem: "1", slots: "9100000", fam: "0",
     telemetry: "0", goldhen: "1",
     stage3: "1", stage4: "1", stage5: "1", stage6: "1",
     stage7: "1", stage8: "1", stage9: "1", stage10: "1"

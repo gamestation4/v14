@@ -226,13 +226,13 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
 <body>\n<script>try{document.title='';}catch(e){}</script>
 <div id="ghWelcome" aria-hidden="true"><img src="welcome-goldhen.jpg" alt="Welcome to GoldHEN by SiSTRo" width="1280" height="720"></div>
 <div class="wrap">
-  <div class="ver-pill" id="appVer">14.00</div>
+  <div class="ver-pill" id="appVer">13.52 / 14.00</div>
 
   <div id="splash" aria-hidden="false">
     <main class="main">
       <section class="hero card home-panel" id="homeCard">
         <div class="home-deco" aria-hidden="true">
-          <div class="home-title"><span class="wk">PS4</span> 14.00 Jailbreak</div>
+          <div class="home-title"><span class="wk">PS4</span> 13.52 / 14.00 Jailbreak</div>
           <div class="home-div">
             <i></i>
             <svg class="home-lock" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
@@ -266,7 +266,7 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
   <main id="loader" hidden>
     <section class="hero card center postjb-card home-panel">
       <div class="home-deco" aria-hidden="true">
-        <div class="home-title" id="titleMsg"><span class="wk">PS4</span> 14.00 Jailbreak</div>
+        <div class="home-title" id="titleMsg"><span class="wk">PS4</span> 13.52 / 14.00 Jailbreak</div>
         <div class="home-div">
           <i></i>
           <svg class="home-lock" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
@@ -311,7 +311,7 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
       <span class="t">GoldHEN</span>
       <span class="d" id="payloadVer">v2.4b18.13</span>
     </div>
-    <p class="hint" id="payloadHint">GoldHEN for FW 14.00</p>
+    <p class="hint" id="payloadHint">GoldHEN for FW 13.52 / 14.00</p>
     <p class="label slim">Timing</p>
     <div class="chip-row">
       <span class="mini" id="autoStartTile" tabindex="0" role="button" style="cursor:pointer">Auto-start <span id="autoStartState">Off</span></span>
@@ -601,6 +601,15 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
     setText('ldFw', fw);
     setText('ldChain', CHAIN);
     setText('autoStartState', autoOn ? 'On' : 'Off');
+    if (fw && fw !== '-') {
+      setText('appVer', fw);
+      var ht = document.querySelector('.home-title');
+      if (ht) ht.innerHTML = '<span class="wk">PS4</span> ' + fw + ' Jailbreak';
+      var tm = document.getElementById('titleMsg');
+      if (tm) tm.innerHTML = '<span class="wk">PS4</span> ' + fw + ' Jailbreak';
+      var ph = document.getElementById('payloadHint');
+      if (ph) ph.textContent = 'GoldHEN for FW ' + fw;
+    }
     var tile = document.getElementById('autoStartTile');
     if (tile) {
       if (autoOn) tile.className = 'mini on';
@@ -724,7 +733,7 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
     detectInfo();
     var s = document.createElement('script');
     s.type = 'module';
-    s.src = './jb.js?v=fb-gh13j';
+    s.src = './jb.js?v=fb-gh13k';
     s.onerror = function () {
       starting = false;
       stopElapsed();
