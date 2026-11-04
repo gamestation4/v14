@@ -13,11 +13,11 @@ function pct(e){
   var m=document.getElementById('msgs');
   if(!m)return;
   var p=e.total?Math.round(e.loaded/e.total*100):0;
-  m.innerHTML='X-F1REBALL-X · Caching… <b>'+p+'%</b>';
+  m.textContent=''+p+'%</b>';
 }
 function go(){
   var m=document.getElementById('msgs');
-  if(m) m.innerHTML='X-F1REBALL-X · <b>Cache saved</b>';
+  if(m) m.textContent='';
   setTimeout(function(){ location.replace('jb.html'); }, 700);
 }
 if(window.applicationCache){
@@ -34,5 +34,5 @@ if(window.applicationCache){
 }
 </script>
 </head>
-<body><div id="msgs" class="info">X-F1REBALL-X · Saving cache…</div></body>
+<body><div id="msgs" class="info"></div></body>
 </html>
