@@ -183,6 +183,9 @@ function finishUI(ok) {
     if (m) m.textContent = "DONE";
     document.body.className = "done";
     try {
+      if (typeof window.__fbSetPayload === "function") window.__fbSetPayload(true);
+    } catch (e) {}
+    try {
       if (typeof window.__fbOnDone === "function") window.__fbOnDone();
     } catch (e) {}
     try {

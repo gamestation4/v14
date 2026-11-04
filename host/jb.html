@@ -657,6 +657,10 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
     if (el) el.textContent = tag;
     if (chip) chip.className = 'hi-chip' + (cls ? (' ' + cls) : ' off');
   }
+  window.__fbSetPayload = function (ok) {
+    if (ok) setPayloadTag('LOADED', 'on');
+    else setPayloadTag('FAIL', 'off');
+  };
 
   window.__fbResetProgress = function () {
     maxPct = 0;
@@ -718,7 +722,7 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
     detectInfo();
     var s = document.createElement('script');
     s.type = 'module';
-    s.src = './jb.js?v=fb-m3g';
+    s.src = './jb.js?v=fb-m3g2';
     s.onerror = function () {
       starting = false;
       stopElapsed();
