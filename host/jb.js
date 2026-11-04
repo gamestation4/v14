@@ -1186,7 +1186,7 @@ let allDone = false,
     
     if (params.get("mini_only") === "1") {
       try {
-        const mini = await import("./fb_kevent.js?v=stage10s-2");
+        const mini = await import("./fb_kevent.js?v=gh13-2");
         const ok = await mini.runMini({
           p: p, sc: sc, callAddr: callAddr, bufAddr: bufAddr, errno: errno,
           webkitBase: webkitBase, libkernelBase: libkernelBase, G: G,

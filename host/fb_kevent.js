@@ -976,12 +976,24 @@ async function stage10Payload(c, d) {
        toI64(0), toI64(0), toI64(0)]);
     log("L-HEN-DIRECT-RETURN", "rc=" + rv.i32 +
       " complete=" + (rv.i32 === 0));
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    const uidAfter = scn("getuid");
+    // Finish immediately so SiSTRo welcome opens right after GoldHEN runs.
+    let uidAfter = scn("getuid");
+    if (rv.i32 === 0 || uidAfter === 0) {
+      log("L-HEN-DIRECT-AFTER", "getuid=" + uidAfter +
+        " direct_rc=" + rv.i32 + " wait_ms=0");
+      return true;
+    }
+    const deadline = Date.now() + 800;
+    let waited = 0;
+    while (Date.now() < deadline) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      waited += 100;
+      uidAfter = scn("getuid");
+      if (uidAfter === 0) break;
+    }
     log("L-HEN-DIRECT-AFTER", "getuid=" + uidAfter +
-      " direct_rc=" + rv.i32);
-    // HEN can return non-zero while still up (FTP/binloader). Treat uid0 or rc0 as success.
-    return rv.i32 === 0 || uidAfter === 0;
+      " direct_rc=" + rv.i32 + " wait_ms=" + waited);
+    return uidAfter === 0;
   }
 
   const readStub = num(c.stubAddr.get(3));
