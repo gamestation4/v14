@@ -201,13 +201,16 @@ body.done #progBar{width:100%!important;background:#ffe566;background:-webkit-li
 body.running #splash,body.done #splash,body.fail #splash{display:none!important}
 body.running #loader,body.done #loader,body.fail #loader{display:-webkit-box;display:-webkit-flex;display:flex}
 
-/* Welcome splash after GoldHEN */
+/* Welcome splash after GoldHEN — img (PS4 WebKit often skips CSS backgrounds) */
 #ghWelcome{
-  display:none;position:fixed;left:0;top:0;right:0;bottom:0;z-index:9999;
-  background:#1848c8;background-image:url(welcome-goldhen.jpg);
-  background-size:cover;background-position:center;background-repeat:no-repeat;
+  display:none;position:fixed;left:0;top:0;right:0;bottom:0;z-index:99999;
+  margin:0;padding:0;background:#1848c8;overflow:hidden;
 }
-body.welcome #ghWelcome{display:block}
+#ghWelcome img{
+  display:block;width:100%;height:100%;border:0;
+  object-fit:cover; /* ignored on old WK; width/height still fill */
+}
+body.welcome #ghWelcome{display:block!important}
 body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .ver-pill,body.welcome #footer,body.welcome .wrap{display:none!important}
 
 @media (max-width:1100px){
@@ -218,9 +221,10 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
   .home-title{font-size:2.4rem}
 }
 </style>
+  <link rel="preload" as="image" href="welcome-goldhen.jpg">
 </head>
 <body>
-<div id="ghWelcome" aria-hidden="true"></div>
+<div id="ghWelcome" aria-hidden="true"><img src="welcome-goldhen.jpg" alt="Welcome to GoldHEN by SiSTRo" width="1280" height="720"></div>
 <div class="wrap">
   <div class="ver-pill" id="appVer">14.00</div>
 
@@ -722,7 +726,7 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
     detectInfo();
     var s = document.createElement('script');
     s.type = 'module';
-    s.src = './jb.js?v=fb-gh13e';
+    s.src = './jb.js?v=fb-gh13f';
     s.onerror = function () {
       starting = false;
       stopElapsed();
@@ -805,17 +809,27 @@ body.welcome #splash,body.welcome #loader,body.welcome .settings,body.welcome .v
     try {
       if (typeof window.__fbSetPayload === 'function') window.__fbSetPayload(true);
     } catch (e) {}
-    document.body.className = 'welcome';
     try {
       var w = document.getElementById('ghWelcome');
-      if (w) w.setAttribute('aria-hidden', 'false');
+      if (w) {
+        w.setAttribute('aria-hidden', 'false');
+        w.style.display = 'block';
+        w.style.zIndex = '99999';
+        var img = w.getElementsByTagName('img')[0];
+        if (img) {
+          try { img.src = 'welcome-goldhen.jpg?v=gh13'; } catch (e2) {}
+        }
+      }
     } catch (e) {}
+    document.body.className = 'welcome';
     detectInfo();
-    // Keep SiSTRo welcome on screen ~3s. Do not history.back/close (PS4 closes the tab).
+    // Stay on SiSTRo welcome ~3s. No history.back / close.
     setTimeout(function () {
       try {
         if (document.body && document.body.className.indexOf('welcome') >= 0) {
           document.body.className = 'done';
+          var w2 = document.getElementById('ghWelcome');
+          if (w2) w2.style.display = 'none';
         }
       } catch (e) {}
     }, 3000);

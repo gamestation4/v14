@@ -181,13 +181,19 @@ function finishUI(ok) {
     } catch (e) {}
     const m = document.getElementById("msg");
     if (m) m.textContent = "DONE";
-    document.body.className = "done";
     try {
       if (typeof window.__fbSetPayload === "function") window.__fbSetPayload(true);
     } catch (e) {}
+    // Prefer SiSTRo welcome immediately; do not set done first (hides splash).
     try {
-      if (typeof window.__fbOnDone === "function") window.__fbOnDone();
-    } catch (e) {}
+      if (typeof window.__fbOnDone === "function") {
+        window.__fbOnDone();
+      } else {
+        document.body.className = "done";
+      }
+    } catch (e) {
+      document.body.className = "done";
+    }
     try {
       var st = document.getElementById("status");
       if (st) st.style.display = "none";
