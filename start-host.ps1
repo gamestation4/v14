@@ -1,4 +1,4 @@
-# PS4 14.00 local HTTP host (AppCache MIME fixed)
+# PS4 13.52 / 14.00 local HTTP host (AppCache MIME fixed)
 # Serves the host/ folder. On PS4 open the printed http:// URL only (no extra title text).
 
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path

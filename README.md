@@ -2,12 +2,12 @@
 
 WebKit + kernel jailbreak host for PlayStation 4 firmware **13.52** and **14.00**. After the stages succeed, the host loads **GoldHEN**.
 
+- **13.52** — classic kpatch path + `patches/1352.bin` (verified on hardware)
 - **14.00** — `hx1400` / kevent path + `patches/1400.bin`
-- **13.52** — classic kpatch path + `patches/1352.bin`
 
 ## Live host
 
-https://x-f1reball-x.github.io/ps4-14.00/
+https://x-f1reball-x.github.io/ps4-13.52-14.00/
 
 ## Payload
 
