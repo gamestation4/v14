@@ -7,7 +7,7 @@ WebKit + kernel jailbreak host for PlayStation 4 firmware **13.52** and **14.00*
 
 ## Live host
 
-https://x-f1reball-x.github.io/ps4-13.52-14.00/
+https://x-f1reball-x.github.io/ps4-jb/
 
 ## Payload
 
